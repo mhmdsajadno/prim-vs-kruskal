@@ -1,5 +1,8 @@
-# Sample weighted graph represented as an adjacency matrix
-import time
+import timeit
+import os
+# Clearing the Screen
+os.system('cls')
+
 
 def prim(graph):
     n = len(graph)
@@ -27,7 +30,6 @@ def prim(graph):
 
     return mst
     
-
 class DisjointSet:
     def __init__(self, size):
         self.parent = list(range(size))
@@ -50,8 +52,6 @@ class DisjointSet:
             else:
                 self.parent[root_y] = root_x
                 self.rank[root_x] += 1
-
-
 def kruskal(graph, num_vertices):
     # Sort edges in ascending order based on their weights
     edges = []
@@ -73,32 +73,33 @@ def kruskal(graph, num_vertices):
 
     return minimum_spanning_tree
 
+def time():
+    # Use timeit for Prim's algorithm
+    prim_time = timeit.timeit(lambda: prim(graph), number=100)
+
+# Use timeit for Kruskal's algorithm
+    kruskal_time = timeit.timeit(lambda: kruskal(graph, num_vertices), number=100)
+
+    print("Prim's time:", prim_time)
+    print("Kruskal's time:", kruskal_time)
+    
 # Example usage:
 graph = [
     [0, 2, 0, 6, 0],
     [2, 0, 3, 8, 5],
     [0, 3, 0, 0, 7],
-    [6, 8, 0, 0, 9],
-    [0, 5, 7, 9, 0]
+    [6, 8, 0, 0, 9]
 ]
 num_vertices = len(graph)
 
-start_time_prim = time.time()
 prim_out = prim(graph)
-end_time_prim = time.time()
-prim_time = end_time_prim - start_time_prim
-
-start_time_kruskal = time.time()
 kruskal_out = kruskal(graph, num_vertices)
-end_time_kruskal = time.time()
-kruskal_time = end_time_kruskal - start_time_kruskal
 
-print("Prim")
+print("Prim: ")
 for edge in prim_out:
     print(f"{edge[0]} - {edge[1]} (Weight: {edge[2]})")
-print("Kruskal")
+print("Kruskal: ")
 for edge in kruskal_out:
     print(f"{edge[0]} - {edge[1]} (Weight: {edge[2]})")
 
-print("Prim's time:", prim_time)
-print("Kruskal's time:", kruskal_time)
+time()
